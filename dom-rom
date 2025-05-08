@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOM-ROM Présentation + Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #e0f7fa, #fff);
+      color: #333;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+      color: #006064;
+    }
+
+    .section {
+      margin: 40px auto;
+      padding: 20px;
+      background: #ffffffcc;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+    }
+
+    .quiz {
+      margin-top: 40px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    .question h3 {
+      margin-bottom: 10px;
+      color: #004d40;
+    }
+
+    input[type="text"], select {
+      padding: 10px;
+      font-size: 1rem;
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    .button {
+      background: #00695c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #004d40;
+    }
+
+    .results {
+      background: #c8e6c9;
+      color: #2e7d32;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: none;
+    }
+
+    .name-input {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .name-input input {
+      padding: 10px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>DOM-ROM Présentation</h1>
+    <p>Découvre les départements et régions d’outre-mer, puis réponds au quiz !</p>
+  </header>
+
+  <div class="section">
+    <h2>1. Introduction</h2>
+    <p>DOM-ROM signifie <strong>Départements et Régions d'Outre-Mer</strong>. Ce sont des territoires français hors de l'Europe. Ils font partie de la France et de l'Union européenne, utilisent l’euro, mais ne sont pas dans l’espace Schengen.</p>
+    <ul>
+      <li><strong>Guadeloupe</strong> : Archipel dans les Caraïbes (~395k habitants)</li>
+      <li><strong>Martinique</strong> : Île (~361k habitants), gouvernement unique</li>
+      <li><strong>Guyane</strong> : En Amérique du Sud (~304k habitants), centre spatial à Kourou</li>
+      <li><strong>La Réunion</strong> : Île dans l’océan Indien (~863k habitants), volcanique</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>2. Histoire</h2>
+    <p>Les territoires ont été colonisés par la France au 17e siècle. L’esclavage y a existé jusqu’en 1848. En 1946, ils deviennent officiellement des départements français.</p>
+  </div>
+
+  <div class="section">
+    <h2>3. Culture</h2>
+    <p>Musique variée : zouk, maloya, biguine… Cuisine riche : accras, colombo, bouillon d’awara. Traditions festives : carnaval, chanté Nwel.</p>
+  </div>
+
+  <div class="section">
+    <h2>4. Économie & Problèmes</h2>
+    <p>Économie basée sur l’agriculture (canne à sucre, bananes), le tourisme, mais avec un chômage élevé et des risques environnementaux (cyclones, volcans).</p>
+  </div>
+
+  <div class="section quiz">
+    <h2>🎯 Quiz DOM-ROM</h2>
+
+    <div class="name-input">
+      <label>Entre ton prénom : </label>
+      <input type="text" id="username" placeholder="Ton prénom..." />
+    </div>
+
+    <div class="question">
+      <h3>1. Quel département se trouve en Amérique du Sud ?</h3>
+      <select id="q1">
+        <option value="">Choisis une réponse</option>
+        <option value="Guadeloupe">Guadeloupe</option>
+        <option value="Guyane">Guyane</option>
+        <option value="Réunion">Réunion</option>
+      </select>
+    </div>
+
+    <div class="question">
+      <h3>2. Complète : Le centre spatial se trouve à ______.</h3>
+      <input type="text" id="q2" placeholder="Ta réponse" />
+    </div>
+
+    <div class="question">
+      <h3>3. Quelle île est connue pour ses volcans ?</h3>
+      <select id="q3">
+        <option value="">Choisis une réponse</option>
+        <option value="La Réunion">La Réunion</option>
+        <option value="Martinique">Martinique</option>
+        <option value="Guadeloupe">Guadeloupe</option>
+      </select>
+    </div>
+
+    <button class="button" onclick="checkAnswers()">Soumettre</button>
+
+    <div class="results" id="resultsBox"></div>
+  </div>
+
+  <script>
+    function checkAnswers() {
+      const username = document.getElementById('username').value.trim();
+      if (!username) {
+        alert("Merci d'écrire ton prénom !");
+        return;
+      }
+
+      const q1 = document.getElementById('q1').value;
+      const q2 = document.getElementById('q2').value.trim().toLowerCase();
+      const q3 = document.getElementById('q3').value;
+
+      let score = 0;
+      if (q1 === "Guyane") score++;
+      if (q2 === "kourou") score++;
+      if (q3 === "La Réunion") score++;
+
+      const resultsBox = document.getElementById("resultsBox");
+      resultsBox.style.display = "block";
+      resultsBox.innerHTML = `<strong>${username}</strong>, tu as obtenu <strong>${score}/3</strong> bonnes réponses ! 🎉`;
+    }
+  </script>
+
+</body>
+</html>
